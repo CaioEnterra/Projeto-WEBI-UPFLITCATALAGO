@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                template="/WEB-INF/templates/template.xhtml">
+
+    <ui:define name="title">
+        Cadastro Genero
+    </ui:define>
+
+    <ui:define name="body">
+        <f:metadata>
+        	<f:viewParam name="id" value="#{cadastroGeneroMB.idGenero}" converter="javax.faces.Long"/>
+        	<f:event listener="#{cadastroGeneroMB.inicializar()}" type="preRenderView"></f:event>
+        </f:metadata>
+
+        <adm:breadcrumb title="Cadastro Genero #{cadastroGeneroMB.genero.id_genero}" 
+        link="cadastro-genero.xhtml?id=#{cadastroGeneroMB.genero.id_genero}"/>
+        <h:form id="form" prependId="false">
+            <p:focus/>
+
+			
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div id="main-buttons" class="hidden-sm hidden-xs">
+                        <p:commandButton value="Salvar" update="@form"
+                        				 action="#{cadastroGeneroMB.salvar()}"
+                                         icon="fa fa-check" styleClass="btn-primary"/>
+                        <p:spacer width="5"/>
+
+                        <p:commandButton value="Excluir" process="@this"
+                        				 rendered="#{cadastroGeneroMB.genero.edicao}"
+                                         icon="fa fa-trash"
+                                         action="#{cadastroGeneroMB.excluir()}"
+                                         styleClass="btn-danger">
+                        </p:commandButton>
+                        <p:spacer width="5"/>
+                        <p:commandButton value="Voltar"
+                                         action="lista-genero?faces-redirect=true"
+                                         process="@this"
+                                         icon="fa fa-close"/>
+                                         
+                    </div>
+                    
+                    <p:splitButton value="Salvar" update="@form"
+                    			   action="#{cadastroGeneroMB.salvar()}"
+                                   icon="fa fa-check"
+                                   styleClass="hidden-md hidden-lg btn-primary">
+                        <p:menuitem value="Excluir"
+                        			action="#{cadastroGeneroMB.excluir()}"
+                        			rendered="#{cadastroGeneroMB.genero.edicao}"
+                                    process="@this"
+                                    icon="fa fa-trash"/>
+                        <p:separator/>
+                        <p:menuitem value="Voltar"                        			
+                        		    action="lista-genero?faces-redirect=true" 
+                        			process="@this"
+                                    icon="fa fa-close"/>
+                    </p:splitButton>
+   
+
+                    <p:separator/>
+
+                    <div class="ui-fluid">
+                    	<p:panelGrid id="capaPanel" columns="1" layout="grid">
+							<p:outputLabel value="Nome" for="nome"/>
+							<p:inputText id="nome" value="#{cadastroGeneroMB.genero.nome_genero}"/>
+														
+                    	</p:panelGrid>
+                    
+
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

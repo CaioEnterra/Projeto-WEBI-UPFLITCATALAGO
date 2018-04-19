@@ -1,0 +1,94 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:adm="http://github.com/adminfaces"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="head-end">
+		<style type="text/css">
+.ui-grid-row .ui-grid-col-2, .ui-grid-row .ui-grid-col-10 {
+	padding: 0.5em 0;
+	margin-left: 10px;
+}
+
+.ui-orderlist .ui-orderlist-list {
+	height: auto;
+}
+
+.ui-orderlist .ui-grid-row .ui-grid-col-2, .ui-orderlist .ui-grid-row .ui-grid-col-10
+	{
+	padding: 0;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="title">
+        Pesquisa Livro
+    </ui:define>
+
+	<ui:define name="body">
+		<adm:breadcrumb title="Pesquisa Livro" />
+
+		<h:form>
+			<div class="box box-primary">
+				<div class="box-header with-border">
+
+					<p:commandButton action="cadastro-livro?faces-redirect=true"
+						ajax="false" icon="fa fa-plus" value="Novo"
+						styleClass="btn-primary" />
+					<p:spacer width="5" />
+
+					<p:commandButton value="Excluir Selecionado(s)" icon="fa fa-trash"
+						styleClass="btn-danger"
+						action="#{listaLivroMB.excluirSelecionados()}" process="@form"
+						update="@form" />
+
+					<p:spacer width="5" />
+					<p:separator />
+
+
+					<p:dataTable id="livroTable" widgetVar="livroTable" rows="10"
+						value="#{listaLivroMB.livros}" var="livro"
+						rowKey="#{livro.id_livro}"
+						selection="#{listaLivroMB.livroSelecionado}" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} "
+						currentPageReportTemplate="" rowsPerPageTemplate="5,10,15,20,30">
+
+						<p:column selectionMode="multiple" width="5%"
+							styleClass="align-center" />
+
+						<!-- Out - listando os dados do banco	 -->
+
+						<p:column headerText="Nome" sortBy="#{livro.nome_livro}">
+							<h:link value="#{livro.nome_livro}"
+								outcome="cadastro-livro.xhtml">
+								<f:param name="id" value="#{livro.id_livro}" />
+							</h:link>
+						</p:column>
+
+						<p:column headerText="Genero" sortBy="#{livro.genero}">
+                            <h:outputLabel value="#{livro.genero.nome_genero}" />
+                        </p:column>
+
+					<p:column headerText="Autor" sortBy="{livro.autor}">
+							<h:outputLabel value="#{livro.autor}" />
+						</p:column>
+
+						<p:column headerText="Avaliação" sortBy="{livro.avaliacao}">
+							<h:outputLabel value="#{livro.avaliacao}" />
+						</p:column>
+
+						
+						
+						
+
+					</p:dataTable>
+
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

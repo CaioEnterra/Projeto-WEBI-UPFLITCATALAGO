@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:adm="http://github.com/adminfaces"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="head-end">
+		<style type="text/css">
+.ui-grid-row .ui-grid-col-2, .ui-grid-row .ui-grid-col-10 {
+	padding: 0.5em 0;
+	margin-left: 10px;
+}
+
+.ui-orderlist .ui-orderlist-list {
+	height: auto;
+}
+
+.ui-orderlist .ui-grid-row .ui-grid-col-2, .ui-orderlist .ui-grid-row .ui-grid-col-10
+	{
+	padding: 0;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="title">
+        Pesquisa Serie
+    </ui:define>
+
+	<ui:define name="body">
+		<adm:breadcrumb title="Pesquisa Serie" />
+
+		<h:form>
+			<div class="box box-primary">
+				<div class="box-header with-border">
+
+					<p:commandButton action="cadastro-serie?faces-redirect=true"
+						ajax="false" icon="fa fa-plus" value="Novo"
+						styleClass="btn-primary" />
+					<p:spacer width="5" />
+
+					<p:commandButton value="Excluir Selecionado(s)" icon="fa fa-trash"
+						styleClass="btn-danger"
+						action="#{listaSerieMB.excluirSelecionados()}" process="@form"
+						update="@form" />
+
+					<p:spacer width="5" />
+					<p:separator />
+
+					
+					<p:dataTable id="serieTable" widgetVar="serieTable" rows="10"
+						value="#{listaSerieMB.series}" var="serie"
+						rowKey="#{serie.id_serie}"
+						selection="#{listaSerieMB.serieSelecionado}" paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} "
+						currentPageReportTemplate="" rowsPerPageTemplate="5,10,15,20,30">
+
+						<p:column selectionMode="multiple" width="5%"
+							styleClass="align-center" />
+							
+						<!-- Out - listando os dados do banco	 -->
+						
+						<p:column headerText="Nome" sortBy="#{serie.nome_serie}">
+						<h:link value="#{serie.nome_serie}" outcome="cadastro-serie.xhtml">
+								<f:param name="id" value="#{serie.id_serie}" />
+							</h:link>
+						</p:column>
+						
+						<p:column headerText="Genero" sortBy="#{serie.genero}">
+                            <h:outputLabel value="#{serie.genero.nome_genero}" />
+                        </p:column>
+                        
+						<p:column headerText="Avaliação" sortBy="{serie.avaliacao}">
+							<h:outputLabel value="#{serie.avaliacao}"/>
+						</p:column>
+
+							
+						
+
+			
+					</p:dataTable>
+
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
